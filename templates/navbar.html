@@ -1,0 +1,112 @@
+
+{% load static %}
+
+  <nav class="absolute z-50 top-0 w-full bg-0 border-white md:border rounded-full mt-4" x-data="{ open: false, dropdown: false }">
+    <div class="container mx-auto grid grid-cols-6 py-2 gap-12 items-center px-4">
+  
+      <!-- Logo -->
+      <div class="col-span-1 p-2 flex items-center justify-center bg-white h-20 w-20 rounded-full">
+          <a href="{% url 'home' %}" class="sm:text-sm md:text-xl font-bold text-white text-center">
+            <img class="block object-contain" src="{% static 'images/offgridlogo.png' %}" alt="Offgrid Logo">
+          </a>
+      </div>
+  
+      <!-- Desktop Nav -->
+      <div class="col-span-4 p-2 hidden md:block">
+        <ul class="flex justify-between items-center text-gray-100 text-sm lg:text-md space-x-4">
+  
+          <!-- Services Dropdown with Icon -->
+          <li class="relative" x-data="{ dropdown: false }">
+            <a @click="dropdown = !dropdown" @click.away="dropdown = false"
+              class="inline-flex items-center rounded-full px-2 hover:bg-blue-100 hover:text-gray-700 transition duration-200 h-6 focus:outline-none text-white">
+              Services
+              <!-- Down Chevron Icon -->
+              <svg x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : 'duration-300' " class="w-4 h-4 ml-1 text-white hover:text-gray-700 transform transition" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.72-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <!-- Dropdown -->
+            <ul x-show="dropdown"
+                x-transition
+                class="absolute bg-blue-100 text-gray-800 mt-2 rounded-md shadow-lg w-56 z-50 hover:bg-gray-50"
+                style="display: none;">
+              
+              {% for service in services %}
+              <li><a href="{% url 'service_detail' service.id %}" class=" block px-4 py-2 hover:bg-gray-200">{{service.get_service_display}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+  
+          <li><a href="{% url 'blogs' %}" class="rounded-full px-2 hover:bg-blue-100 hover:text-gray-700 transition duration-200 h-6 block">Blog</a></li>
+          <li><a href="{% url 'contact_us' %}" class="rounded-full px-2 hover:bg-blue-100 hover:text-gray-700 transition duration-200 h-6 block">Contact Us</a></li>
+          <li><a href="{% url 'testimonials' %}" class="rounded-full px-2 hover:bg-blue-100 hover:text-gray-700 transition duration-200 h-6 block">Testimonials</a></li>
+        </ul>
+      </div>
+      {% if request.user.is_authenticated and request.user.email == user.email %}
+      <!-- Logout -->
+          <form method="post" action="{% url 'logout' %}" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="flex items-center space-x-1 text-red-600 hover:text-red-800 bg-white rounded-lg px-4 p-2 hidden md:flex">
+              <!-- Heroicon: Logout -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M18 12H9m0 0l3-3m-3 3l3 3" />
+              </svg>
+              <span>Logout</span>
+            </button>
+          </form>
+      {% endif %}
+
+      <!-- Hamburger Icon (Mobile only) -->
+      <div class="absolute right-0 col-span-1 md:hidden flex justify-end pr-4">
+        <button @click="open = !open" class="text-white focus:outline-none">
+          <!-- Hamburger / Close Icons -->
+          <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition class="md:hidden px-6 pb-4 space-y-2 bg-blue-100 hover:bg-gray-50 text-gray-700">
+
+      <!--Logout-->
+            {% if request.user.is_authenticated and request.user.email == user.email %}
+          <form method="post" action="{% url 'logout' %}" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="flex items-center space-x-1 text-red-600 hover:text-red-800 rounded-lg px-4 p-2">
+              <!-- Heroicon: Logout -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M18 12H9m0 0l3-3m-3 3l3 3" />
+              </svg>
+              <span>Logout</span>
+            </button>
+          </form>
+      {% endif %}
+
+      <a href="{% url 'blogs' %}" class="block hover:bg-gray-200 px-2 py-1 rounded">Blog</a>
+      <a href="{% url 'contact_us' %}" class="block hover:bg-gray-200 px-2 py-1 rounded">Contact Us</a>
+      <a href="{% url 'testimonials' %}" class="block hover:bg-gray-200 px-2 py-1 rounded">Testimonials</a>
+  
+      <!-- Mobile Dropdown (Services) -->
+      <div x-data="{ mobDrop: false }">
+        <button @click="mobDrop = !mobDrop" class="w-full text-left hover:bg-gray-100 px-2 py-1 rounded">Services</button>
+        <ul x-show="mobDrop" x-transition class="justify-end pl-4">
+          {% for service in services %}
+          <li><a href="{% url 'service_detail' service.id %}" class="block px-2 py-1 hover:bg-gray-200 ">{{service.get_service_display}}</a></li>
+          {%endfor%}
+        </ul>
+      </div>
+    </div>
+  </nav>

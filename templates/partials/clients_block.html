@@ -1,0 +1,32 @@
+{% load static %}
+{% block content %}
+
+<!-- Section Title -->
+<section class="w-full mx-auto">
+<div class=" p-2 mt-16 mb-4 text-center" >
+  <h3 x-data="{show:false}" x-intersect="show = true" class="text-3xl text-gray-600 font-bold mb-4 m-10">They trusted us to lead their digital transformation</h3>
+</div>
+
+<!-- Infinite Scroll Logo Marquee -->
+<div class="bg-white py-6 overflow-hidden" >
+  <div
+    class="flex animate-infinite-scroll items-center gap-6 min-w-max" >
+    {% for i in "1234" %}
+      {% for clientlogo in clientlogos %}
+        <div 
+          class="w-20 h-20 aspect-square flex items-center justify-center rounded-full overflow-hidden border border-gray-200 shadow-sm "
+        >
+          <img 
+            src="{{ clientlogo.logo.url }}" 
+            alt="{{ clientlogo.client }}" 
+            title="{{ clientlogo.client }}"
+            loading="lazy"
+            class="w-full h-full object-contain rounded-full"
+          />
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+</section>
+{% endblock content %}

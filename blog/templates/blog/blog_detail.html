@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{post.title}} | Offgrid Incorporation {% endblock title %}
+{% block content %}   
+<!-- Blog Post Hero -->
+<section class="relative w-full h-[70vh] bg-cover bg-center bg-no-repeat"
+         style="background-image: url('{% static 'images/blog_hero.jpg' %}');">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40 bg-opacity-40 z-0"></div>
+
+  <!-- Content Grid -->
+  <div class="relative z-10 max-w-6xl mx-auto h-full flex items-center px-6 py-12 p-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full text-white mt-16">
+
+      <!-- Title & Meta -->
+      <div>
+        <h1 class="text-3xl sm:text-5xl font-semibold mb-6 pt-16 leading-tight">
+          {{ post.title }}
+        </h1>
+
+        <div class="text-sm text-gray-200 font-light leading-tight">
+          {{ post.published_at }} | Author: {{ post.author.username }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if request.user.is_authenticated and request.user.email == "saiddetz@gmail.com" %}
+     <!-- BLOG DELETE, UPDATE Button -->
+     <div class="flex justify-center items-center text-center gap-4 mt-6 px-10">
+          <h1 class="font-bold text-gray-600 text-2xl">Service Delete, Update</h1>
+     </div>
+  <div class="flex justify-center items-center gap-4 mt-6 px-16">
+    <a href="{% url 'blog_update' post.id %}"
+        class=" font-semibold p-2 bg-yellow-300 text-white hover:bg-green-200 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Update Blog Post
+    </a>
+      <a href="{% url 'blog_delete' post.id %}"
+        class=" font-semibold p-2 bg-red-600 text-white hover:bg-red-400 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Delete Blog Post
+    </a>
+  </div>
+  {% endif %}
+
+<!-- Blog Content Section -->
+<section class="w-full grid md:grid-cols-1 items-start justify-center px-4 sm:px-10 py-10 bg-white gap-8">
+
+  <!-- Image -->
+  <div class="md:w-3/4 w-full">
+    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="rounded-lg w-full object-cover h-46 shadow-lg">
+  </div>
+
+  <!-- Content -->
+  <div class="md:w-3/4 w-full">
+    <article class="prose prose-lg prose-blue max-w-full">
+      {{ post.content|safe }}
+    </article>
+  </div>
+  
+</section>
+
+
+
+<!-- Related Blogs Section -->
+<div class="w-full bg-gray-50 px-6 py-12">
+    <!-- Section Title -->
+    <div class="mb-8">
+        <h2 class="font-bold sm:text-5xl text-3xl text-left text-gray-600">
+            You may also like...
+        </h2>
+    </div>
+
+    <!-- Blog Cards -->
+    <div class="space-y-6">
+        {% for post in popular_posts %}
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white shadow rounded overflow-hidden">
+            <!-- Text Content -->
+            <div class="sm:col-span-2 p-4">
+                <h3 class="text-xl font-bold text-gray-600 mb-2">
+                    {{ post.title }}
+                </h3>
+                <p class="text-gray-600 text-sm">
+                    {{ post.content|truncatewords:20 }}
+                </p>
+                <a href="{% url 'blog_detail' post.id %}" class="inline-block mt-4 text-gray-600 hover:underline text-sm font-medium">
+                    Read more →
+                </a>
+            </div>
+            
+            <!-- Image -->
+            <div class="sm:col-span-1 flex items-center justify-center bg-gray-200 h-40">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="object-cover w-full h-full">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ meta_title }} | Offgrid Incorporation {% endblock title %}
+{% block meta_description %}{{ meta_description}}{% endblock meta_description %}
+{% block content %}
+
+<!-- Hero -->
+<section class="relative w-full h-screen bg-cover bg-center bg-no-repeat"
+         style="background-image: url('{% static 'images/blog_hero.jpg' %}');">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40 bg-opacity-50 z-0"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex items-center justify-center h-full px-6 text-center">
+    <h1 class="text-gray-100 text-3xl sm:text-5xl font-bold leading-tight max-w-3xl">
+      Brain Dump: Marketing Strategies Blog
+    </h1>
+  </div>
+</section>
+
+    {% if request.user.is_authenticated and request.user.email == "saiddetz@gmail.com" %}
+     <!-- Create New Blog Post -->
+     <div class="flex justify-center items-center text-center gap-4 mt-16 px-10">
+          <h1 class="font-bold text-gray-600 text-2xl w-full md:w-1/2">Create New Blog Post</h1>
+
+    <a href="{% url 'blog_create' %}"
+        class=" font-semibold p-2 bg-gray-600 text-white hover:bg-green-200 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Create Blog Post
+    </a>
+  </div>
+  {% endif %}
+<!-- Blog Content Grid -->
+<div class="grid sm:grid-cols-1 md:grid-cols-3 gap-6 mt-12 px-6">
+
+    <!-- Featured Blog Post -->
+    <div class="md:col-span-2 space-y-6">
+        {% for post in blogs|slice:":1" %}
+        <div class="bg-white p-4 border-r-2 border-gray-200 mb-16">
+            <div class=" p-4">
+                <h1 class="font-bold sm:text-2xl text-left text-gray-600">{{ post.title }}</h1>
+                <p class="text-md sm:text-xl text-left font-light text-gray-700 py-4">
+                    {{ post.content| safe | truncatewords:25 }}...
+                </p>
+                <a href="{% url 'blog_detail' post.id %}" class="inline-block mt-4 text-gray-600 hover:underline text-sm font-medium">
+                    Read more →
+                </a>
+            </div>
+            <div class="bg-black flex items-center justify-center">
+                <img class="w-full h-auto object-cover" src="{{ post.image.url }}" alt="{{ post.title }}">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Popular Blog Posts -->
+    <div class="md:col-span-1 p-4 -left space-y-4">
+    <!-- Search Form -->
+        <div class="bg-white p-4">
+            <form method="get" action="{% url 'blogs' %}" class="flex items-center space-x-2">
+                <input 
+                type="text" 
+                name="q" 
+                placeholder="Search..." 
+                value="{{ request.GET.q }}" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-full text-sm bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 hover:ring-gray-400 transition-all duration-300"
+                style="box-shadow: inset 0 12px 24px rgba(0, 0, 0, 0.15);" 
+                />
+
+                <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition">
+                        <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M10,2A8,8,0,1,1,2,10,8,8,0,0,1,10,2Zm0,2A6,6,0,1,0,16,10,6,6,0,0,0,10,4Zm8.59,13.17-4.2-4.2a8,8,0,1,0-1.41,1.41l4.2,4.2a1,1,0,1,0,1.41-1.41Z"/>
+                        </svg>
+                </button>
+            </form>
+        </div>
+        <!--Popular Posts Title-->
+        <div class="bg-white p-4">
+            <h2 class="font-bold text-2xl text-gray-600">Popular posts</h2>
+        </div>
+        {% for post in popular_posts %}
+        <div class="bg-white p-4 border-t border-gray-200 transition duration-200 hover:bg-gray-100">
+            <a href="{% url 'blog_detail' post.id %}" class="px-4 py-2">
+                <h3 class="text-lg font-normal text-gray-700">{{ post.title }}</h3>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- Related Blogs Section -->
+<div class="w-full bg-white px-6 py-12">
+    <!-- Section Title -->
+    <div class="mb-8">
+        <h2 class="font-semibold sm:text-5xl text-3xl text-left text-gray-600">
+            You may also like...
+        </h2>
+    </div>
+
+    <!-- Blog Cards -->
+    <div class="space-y-6">
+        {% for post in latest_posts %}
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white shadow rounded overflow-hidden">
+            <!-- Text Content -->
+            <div class="sm:col-span-2 p-4">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                    {{ post.title }}
+                </h3>
+                <p class="text-gray-600 text-sm">
+                    {{ post.content|truncatewords:20 }}
+                </p>
+                <a href="{% url 'blog_detail' post.id %}" class="inline-block mt-4 text-gray-600 hover:underline text-sm font-medium">
+                    Read more →
+                </a>
+            </div>
+            
+            <!-- Image -->
+            <div class="sm:col-span-1 flex items-center justify-center bg-gray-200">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="object-cover w-full h-40">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

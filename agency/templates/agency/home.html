@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ meta_title }} | Offgrid Incorporation {% endblock title %}
+{% block meta_description %}{{ meta_description}}{% endblock meta_description %}
+
+{% block extra_head %}
+<script>
+
+</script>
+{% endblock extra_head %}
+{% block content %}
+    <section   class="bg-white w-full">
+
+        {% include "partials/hero_block.html" %}
+
+        <div x-data="{show:false}" x-intersect="show = true" >
+        {% include "partials/clients_block.html" %}
+        </div>
+
+        <div >
+            {% include "partials/services_block.html" %}
+        </div>
+
+        <div >
+            {% include "partials/testimonials_block.html" %}
+        </div>
+
+        <div>
+        {% include "partials/blogs_block.html" %}
+        </div>
+
+    </section>
+{% endblock content %}

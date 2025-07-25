@@ -1,0 +1,36 @@
+{% load static %}
+<!-- Compiled Tailwind File -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% load crispy_forms_tags static %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full bg-white shadow-lg rounded-2xl overflow-hidden">
+    
+    <!-- Header -->
+    <div class="bg-blue-600 py-4 px-6 text-center text-white">
+      <h3 class="text-xl font-semibold">Sign Up</h3>
+    </div>
+
+    <!-- Form -->
+    <div class="px-6 py-8">
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <button type="submit"
+                class="w-full py-2 bg-blue-600 text-white text-lg font-medium rounded-full hover:bg-blue-700 transition">
+          👤 Create Account
+        </button>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-50 py-4 text-center text-sm text-gray-600">
+      Already have an account?
+      <a href="{% url 'login' %}" class="text-blue-600 hover:underline font-medium">Log In</a>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

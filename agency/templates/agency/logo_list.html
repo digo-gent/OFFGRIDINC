@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{package.get_display_title}} | {% endblock title %}
+
+{% block content %}
+<section class="bg-gray-50 min-h-screen py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Packages</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {% for package in packages %}
+      <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <a href="{% url 'package_detail' package.id %}" class="block">
+          <h3 class="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-200">
+            {{ package.get_display_title}}
+          </h3>
+          <p class="mt-2 text-gray-500 text-sm">Click to learn more</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

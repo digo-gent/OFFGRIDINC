@@ -1,0 +1,10 @@
+
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ form.as_p }}  <!-- Render all form fields -->
+            </div>
+            <button type="submit">Edit Package</button>
+        </form>
+    </div>

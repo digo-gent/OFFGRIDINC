@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} {{ meta_title }} | Offgrid Incorporation {% endblock title %}
+{% block meta_description %}{{ meta_description}}{% endblock meta_description %}
+
+{% block content %}
+<section class="relative w-full mx-auto bg-cover bg-center bg-no-repeat px-8"
+  style="background-image: url('{% static 'images/contact_hero2.jpg' %}');>">
+
+    <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40 z-0"></div>
+  
+  <div class="mx-auto px-6 text-center h-full p-4 pt-10 min-h-screen">
+    
+    <!-- Title Section -->
+    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 p-4 pt-10">
+      <div>
+          <p class="text-5xl font-light mb-2 mt-10 pt-10 text-left text-white">
+          Take the Silk Road to
+        </p>
+        <h1 class="text-7xl font-bold mb-4 mt-16 text-left text-white">
+          Digitizing Your Business Growth
+        </h1>
+      
+      <!-- Call-to-action Buttons -->
+      <div class="flex flex-1 gap-4 mt-16">
+        <!-- CTA Section -->
+        <div class=" rounded">
+        <p class="sm:text-sm md:text-lg text-white font-semibold mb-6 border-l border-white p-4">
+          Take the Silk Road to
+        </p>
+        </div>
+         <div class=" rounded">
+        <p class="sm:text-sm md:text-lg text-white font-semibold mb-6 border-l border-white p-4">
+          Take the Silk Road to
+        </p>
+        </div>
+         <div class=" rounded">
+        <p class="sm:text-sm md:text-lg text-white font-semibold mb-6 border-l border-white p-4">
+          Take the Silk Road to
+        </p>
+        </div>
+    </div>
+        <h1 class="sm:text-5xl md:text-3xl font-extrabold mb-4 text-white text-left">
+          8+ Years of building brands
+        </h1>
+
+  </div>
+
+
+      <!-- Contact form -->
+      <div class="p-4 bg-white mt-16">
+        <h1 class="text-xl sm:text-5xl md:text-3xl text-gray-700 font-bold mb-4">
+            Start a conversation with us
+        </h1>
+        <div>
+            <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {% csrf_token %}
+
+              {{ form.first_name|as_crispy_field }}
+              {{ form.last_name|as_crispy_field }}
+
+              {{ form.company_name|as_crispy_field }}
+              {{ form.email|as_crispy_field }}
+
+              {{ form.phone|as_crispy_field }}
+              {{ form.subject|as_crispy_field }}
+
+              <div class="md:col-span-2">
+                {{ form.message|as_crispy_field }}
+              </div>
+
+              <div class="md:col-span-2">
+                <button type="submit" class="bg-blue-900 hover:bg-blue-400 text-white font-semibold px-4 py-2 rounded-full w-full mb-4">
+                  Send Message
+                </button>
+              </div>
+            </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock content %}
+    

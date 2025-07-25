@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} {{service.get_service_display}} | Offgrid Incorporation {% endblock title %}
+{% block meta_description %}{{ meta_description}}{% endblock meta_description %}
+{% block content %}
+<!-- Hero Section -->
+<section class="relative w-full mx-auto h-screen bg-cover bg-center bg-no-repeat px-8"
+  style="background-image: url('{% static 'images/service_detail-hero.jpg' %}');">
+
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-black/40 bg-opacity-50 z-0"></div>
+
+  <div class="container mx-auto px-6 py-12">
+    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 h-full p-4">
+
+      <!-- Service Text -->
+      <div class="flex flex-col justify-center p-6 text-white mt-8">
+        <h1 class="text-3xl sm:text-5xl font-bold drop-shadow-lg mb-4 mt-10 p-4 capitalize">
+          {{service.get_service_display}}
+          
+        </h1>
+        <p class="font-light text-3xl sm:text-2xl drop-shadow mb-6 p-4">
+          {{ service.overview |safe}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+    {% if request.user.is_authenticated and request.user.email == "saiddetz@gmail.com" %}
+     <!-- SERVICE DELETE, UPDATE Button -->
+     <div class="flex justify-center items-center text-center gap-4 mt-6 px-10">
+          <h1 class="font-bold text-gray-600 text-2xl">Service Delete, Update</h1>
+     </div>
+  <div class="flex justify-center items-center gap-4 mt-6 px-16">
+    <a href="{% url 'service_update' service.id %}"
+        class=" font-semibold p-2 bg-yellow-300 text-white hover:bg-green-200 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Update Service
+    </a>
+      <a href="{% url 'service_delete' service.id %}"
+        class=" font-semibold p-2 bg-red-600 text-white hover:bg-red-400 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Delete Service
+    </a>
+  </div>
+  {% endif %}
+
+<!-- Service Content & Contact Form -->
+<section class="w-full mx-auto bg-white min-h-screen mt-10 p-4">
+  <div class="grid sm:grid-cols-1 md:grid-cols-6 gap-6 p-6">
+    <!-- Description -->
+    <div class="md:col-span-3 text-left font-normal text-gray-700">
+      <p>{{ service.description |safe}}</p>
+    </div>
+
+<!-- Contact form -->
+    <div class="md:col-span-3 p-2 bg-gray-200 shadow-lg ">
+        <h2 class="text-2xl font-bold text-gray-700 p-2 mb-10 mt-4">Inquire about this service</h2>
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% csrf_token %}
+            {{ form.first_name|as_crispy_field }}
+            {{ form.last_name|as_crispy_field }}
+
+            {{ form.company_name|as_crispy_field }}
+            {{ form.industry|as_crispy_field }}
+
+            {{ form.email|as_crispy_field }}
+            {{ form.phone|as_crispy_field }}
+
+            {{ form.service|as_crispy_field }}
+            {{ form.package|as_crispy_field }}
+            
+
+            <div class="md:col-span-2">
+                {{ form.message|as_crispy_field }}
+            </div>
+
+            <div class="md:col-span-2">
+                <button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-semibold px-4 py-2 rounded-full w-full mb-4">
+                    Submit
+                </button>
+            </div>
+        </form>
+        </div>
+    </div>
+</section>
+
+<section class="w-full mx-auto min-h-screen bg-white">
+  <div class="text-center p-10">
+    <h1 class="font-bold sm:text-5xl text-gray-600">Packages</h1>
+    <p class="text-md sm:text-xl font-light p-4 text-gray-700">
+      1-on-1 Onboarding + 24/7 Support + Free consultation
+    </p>
+  </div>
+
+  <div class="w-full grid sm:grid-cols-1 md:grid-cols-3 gap-6 px-6 pb-8">
+  {% for package in packages %}
+  <div class="bg-white hover:bg-gray-100 p-6 flex flex-col justify-between border border-gray-200 rounded text-center transition-all duration-300 hover:ring-gray-400">
+    
+    <!-- Package Title -->
+    <div class="text-gray-600 font-bold text-3xl sm:text-4xl mb-6 p-4 rounded-full shadow-lg bg-white">
+      {{ package.get_package_display }}
+    </div>
+    
+    <!-- Package Details -->
+    <div class="prose max-w-none text-md text-left sm:text-xl font-semibold p-4 text-gray-700 min-h-72">
+      {{ package.package_details|safe }}
+    </div>
+    {% if request.user.is_authenticated and request.user.email == "saiddetz@gmail.com" %}
+     <!-- DELETE, UPDATE Button -->
+  <div class="flex justify-center items-center gap-4">
+    <a href="{% url 'package_update' package.id %}"
+        class="font-semibold p-2 bg-yellow-300 text-white hover:bg-green-200 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Update Package
+    </a>
+      <a href="{% url 'package_delete' package.id %}"
+        class="font-semibold p-2 bg-red-600 text-white hover:bg-red-400 hover:text-blue-900 border border-blue-900 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Delete Package
+    </a>
+  </div> 
+  {% endif %}
+  </div>
+  {% empty %}
+  <p class="text-center col-span-full text-gray-500">
+    No packages available for this service.
+  </p>
+  {% endfor %}
+</div>
+
+{% if packages %}
+<!-- CTA Button -->
+<div class="flex justify-center items-center w-full px-6">
+  <a href="#"
+      class="font-semibold p-3 mt-4 bg-blue-700 text-white hover:bg-blue-900 hover:text-gray-100 transition duration-300 rounded-full text-center w-full md:w-1/2">
+    Schedule Discovery Call
+  </a>
+</div>
+{% endif %}
+
+</section>
+
+
+<!-- case studies Carousel -->
+<section class="w-full">
+          {% include "partials/case_studies_block.html" %}
+</section>
+
+<!-- Talk to us -->
+<section class="w-full px-4 py-10 bg-white border border-gray-200 mt-16">
+
+    <div class="max-w-4xl mx-auto text-center space-y-4 p-4 flex flex-col items-center">
+        <!--Image-->
+        <div class="w-20 h-20 mb-4">
+        <img class="w-full h-full object-cover rounded-full shadow-sm" 
+        src="{% static 'images/customer-support.avif' %}">
+        </div>
+
+        <!--Title, Body, Message Box-->
+        <h1 class="text-4xl font-bold text-gray-600">Let's start a conversation</h1>
+        <p class="text-base sm:text-lg text-gray-600 font-semibold">How are you doing?</p>
+
+        <!--Message box-->
+        <div class="p-2 mb-4">
+            <div class="md:col-span-2">
+                <form method="POST" class="w-full max-w-xl">
+                  {% csrf_token %}
+                  {{ form.message|as_crispy_field }}
+                  <div class="flex justify-center mt-6">
+                      <button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-semibold px-4 py-2 rounded-lg w-full mb-4">
+                          Ask Away!
+                      </button>
+                  </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

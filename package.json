@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@alpinejs/intersect": "^3.14.9",
+    "alpinejs": "^3.14.9"
+  },
+  "name": "offgridinc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vite": "^7.0.5"
+  }
+}

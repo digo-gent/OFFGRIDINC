@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<!-- Hero Section -->
+<section class="relative w-full h-screen bg-cover bg-center bg-no-repeat"
+  style="background-image: url('{% static 'images/testimonial_hero1.jpg' %}');"
+>
+  <div class="absolute inset-0 bg-black/40"></div> <!-- Optional dark overlay -->
+
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow mb-4">
+      Glowing Reviews From Esteemed Clients
+    </h1>
+    <p class="text-lg sm:text-2xl font-light text-white max-w-3xl mx-auto">
+      Fitting reviews for work well done.
+    </p>
+  </div>
+</section>
+
+{% if request.user.is_authenticated and request.user.email == "saiddetz@gmail.com" %}
+<div class="min-h-screen bg-white rounded-xl shadow-md flex flex-col items-center justify-center bg-gray-100 px-4 py-8">
+  <div class="w-full max-w-2xl p-8 mb-6">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Update Testimonial</h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.media }}
+      {{ form|crispy }}
+
+  <div class="flex justify-center items-center gap-4 mt-6 px-16">
+        <button type="submit" class="bg-blue-700 text-white px-6 py-2 rounded-full hover:bg-blue-800 transition w-full md:w-1/2">
+            Update Post
+        </button>
+      <a href="{% url 'testimonial_delete' testimonial.id %}"
+        class=" font-semibold p-2 bg-red-700 text-white hover:bg-red-900 hover:text-gray-100 transition duration-300 rounded-full text-center w-full md:w-1/2">
+        Delete Blog Post
+    </a>
+  </div>
+</form>
+</div>
+</div>
+{% endif %}
+{% endblock  %}

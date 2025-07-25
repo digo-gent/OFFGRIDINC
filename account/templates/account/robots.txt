@@ -1,0 +1,7 @@
+User-agent: *
+
+Disallow:/admin/
+Disallow:/accounts/
+Disallow:/access/
+
+Sitemap: https://offgridinc.co.ke/sitemap.xml

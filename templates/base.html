@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{{ meta_title }} | Offgrid Incorporation{% endblock %}</title>
+        <link rel="icon" href="{% static 'images/offgridlogo.png' %}" type="image/x-icon">
+        <meta name="description" content="{{ meta_description }}">
+        <meta name="keywords" content="{{ meta_keywords }}">
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="{{ meta_title }}">
+        <meta property="og:description" content="{{ meta_description }}">
+        <meta property="og:image" content="{{ og_image.url|default_if_none:'' }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="{{ twitter_card_type }}">
+        <meta name="twitter:title" content="{{ meta_title }}">
+        <meta name="twitter:description" content="{{ meta_description }}">
+        <meta name="twitter:image" content="{{ og_image.url|default:'' }}">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<!-- Alpine (built via Vite) -->
+<script type="module" src="{% static 'dist/assets/main-PEIsXshl.js' %}"></script>
+
+
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-...=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    />
+
+    {% load django_browser_reload %}
+    {% django_browser_reload_script %}
+
+    <!-- Compiled Tailwind File -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_head %}{% endblock extra_head %}
+    </head>
+
+    <body x-data x-cloak class="w-full mx-auto">
+
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- Flash Messages (optional) -->
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="mb-3 p-4 rounded-lg shadow-sm 
+                    {% if message.tags == 'success' %}bg-green-100 text-green-800
+                    {% elif message.tags == 'error' %}bg-red-100 text-red-800
+                    {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+                    {% else %}bg-blue-100 text-blue-800{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <!-- Page Content -->
+    <main>
+        {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer (optional) -->
+    {% include 'footer.html' %}
+
+</body>
+</html>

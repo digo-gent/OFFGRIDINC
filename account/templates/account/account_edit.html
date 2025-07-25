@@ -1,0 +1,23 @@
+{% load static %}
+<!-- Compiled Tailwind File -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% load crispy_forms_tags static %}
+
+{% block content %}
+<section class="max-auto w-full h-auto flex items-center justify-center pt-16 ">
+{% if request.user.is_authenticated and request.user.email == user.email %}
+<div class="max-w-md mx-auto mt-16 bg-white rounded shadow mb-16  p-6">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Update Account</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <button type="submit" class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full">
+            Save Changes
+        </button>
+    </form>
+</div>
+{% endif %}
+</section>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  {% if messages %}
+    <div class="mb-4 pt-16 max-w-2xl mx-auto">
+      {% for message in messages %}
+        <div class="p-4 text-white bg-green-600 rounded shadow">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+<!-- Hero -->
+<section class="relative w-full h-screen bg-cover bg-center bg-no-repeat"
+         style="background-image: url('{% static 'images/blog_hero.jpg' %}');">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40 bg-opacity-50 z-0"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex items-center justify-center h-full px-6 text-center">
+    <h1 class="text-gray-100 text-3xl sm:text-5xl font-bold leading-tight max-w-3xl">
+      Brain Dump: Marketing Strategies Blog
+    </h1>
+  </div>
+</section>
+
+    
+<div class="bg-gray-100 p-8 flex justify-center">
+    <div class="w-full max-w-3xl bg-white shadow-lg p-6 rounded-lg">
+        <h1 class="text-2xl font-semibold mb-4">Create Blog Post</h1>
+
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form|crispy }}
+            
+            <div class="flex justify-end">
+                <button type="submit" class="rounded-lg bg-blue-700 hover:bg-blue-800 transition text-white px-6 py-2">
+                    Publish
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

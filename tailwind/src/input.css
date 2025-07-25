@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@source "../../**/*.{html,py,js}";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add custom animation using Tailwind's @layer utility */
+@layer utilities {
+  @keyframes infinite-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.33%);
+    }
+  }
+
+  .animate-infinite-scroll {
+    animation: infinite-scroll 10s linear infinite;
+  }
+
+  .paused {
+    animation-play-state: paused;
+  }
+}

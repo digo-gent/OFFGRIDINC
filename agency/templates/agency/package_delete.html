@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4">
+  <div class="max-w-xl w-full bg-white p-8 rounded-xl shadow-md text-center">
+
+    <!-- Title -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">Delete Package</h2>
+    
+    <!-- Confirmation Text -->
+    <p class="text-gray-600 text-lg mb-6">
+      Are you sure you want to delete the package 
+      <strong class="text-red-600">{{package.service}}, {{ package.get_package_display }}</strong>?
+    </p>
+
+    <!-- Delete Form -->
+    <form method="post">
+      {% csrf_token %}
+      
+      <div class="flex justify-center gap-4">
+        <!-- Confirm Delete -->
+        <button type="submit"
+                class="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition">
+          Yes, Delete
+        </button>
+
+        <!-- Cancel -->
+        <a href="{% url 'service_detail' package.service.id %}"
+           class="bg-gray-300 text-gray-800 px-6 py-2 rounded-full hover:bg-gray-400 transition">
+          Cancel
+        </a>
+      </div>
+    </form>
+
+  </div>
+</section>
+
+{% endblock content %}

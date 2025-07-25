@@ -1,0 +1,25 @@
+{% load static %}
+<!-- Compiled Tailwind File -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% load crispy_forms_tags static %}
+
+{% block content %}
+    
+<div class="max-w-2xl mx-auto mt-10 space-y-4 p-16">
+    {% if request.user.is_authenticated and request.user.email == user.email %}
+    {% for account in accounts %}
+        <div class="bg-white p-4 rounded shadow hover:shadow-md transition mt-16">
+            <ul>
+                <li class="text-gray-600 font-bold text-2xl hover:underline">
+                    <a href="{% url 'account_detail' %}">
+                        {{ account.username }} &mdash; {{ account.email }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% empty %}
+        <p class="text-gray-500 text-center">No accounts found.</p>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock content %}

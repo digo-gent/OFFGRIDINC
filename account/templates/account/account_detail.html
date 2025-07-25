@@ -1,0 +1,43 @@
+{% load static %}
+<!-- Compiled Tailwind File -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% load crispy_forms_tags static %}
+
+{% block content %}
+<section class="max-auto w-full h-auto flex items-center justify-center pt-16 ">
+{% if request.user.is_authenticated and request.user.email == user.email %}
+<div class="max-w-md mx-auto mt-10 mt-16 bg-white rounded shadow mb-16  p-6">
+    <h2 class="text-xl font-semibold mb-4">Account Details</h2>
+
+    <ul class="mb-6 text-gray-700">
+        <li>
+            <a href="{% url 'account_detail' %}" class="text-gray-600 text-big font-bold hover:underline">
+                Username: {{ user.username }}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'account_detail' %}" class="text-gray-600 text-big font-bold hover:underline">
+                Email: {{ user.email }}
+            </a>
+        </li>
+    </ul>
+
+    <form method="post" action="{% url 'account_delete' %}" class="mb-4">
+        {% csrf_token %}
+        <button
+            type="submit"
+            onclick="return confirm('Are you sure you want to delete your account?');"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded w-full">
+            Delete Account
+        </button>
+    </form>
+
+    <a href="{% url 'account_update' %}">
+        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full">
+            Update Account
+        </button>
+    </a>
+</div>
+{% endif %}
+</section>
+{% endblock content %}

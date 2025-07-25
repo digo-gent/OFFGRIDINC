@@ -1,0 +1,48 @@
+{% load static %}
+<!-- Compiled Tailwind File -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% load crispy_forms_tags static %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100 pt-20">
+  <div class="w-full max-w-md p-6 bg-white rounded-2xl shadow-lg mt-16 mb-16">
+
+    <!-- Optional logo -->
+    <div class="flex justify-center mb-4">
+      <img src="{% static 'images/offgridlogo.png' %}" alt="Offgrid Logo" class="h-10">
+    </div>
+
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Login to Your Account</h2>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="text-red-600 text-sm">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      {{ form|crispy }}
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition">
+        Login
+      </button>
+    </form>
+
+    <div class="mt-6 text-center text-sm text-gray-600 space-y-2">
+      <p>
+        Don't have an account?
+        <a href="{% url 'account_create' %}" class="text-blue-600 hover:underline font-medium">Sign Up</a>
+      </p>
+      <p>
+        Forgot your password?
+        <a href="{% url 'password_reset' %}" class="text-blue-600 hover:underline font-medium">Reset Password</a>
+      </p>
+      <p>
+        Want to change your password?
+        <a href="{% url 'account_password_change' %}" class="text-blue-600 hover:underline font-medium">Change Password</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

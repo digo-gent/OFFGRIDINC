@@ -1,0 +1,29 @@
+
+{% load static %}
+<section 
+  class="relative w-full mx-auto h-screen bg-cover bg-center bg-no-repeat px-8"
+  style="background-image: url('{% static 'images/main_hero3.jpg' %}');"
+>
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-black/40 bg-opacity-50 z-0"></div>
+
+  <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 h-full p-4">
+    <!-- Left Content -->
+    <div class="flex flex-col justify-center p-6 text-white mt-8">
+      <h1 class="text-3xl sm:text-5xl font-bold drop-shadow-lg mb-4 mt-10 p-4 capitalize">DIGITAL MARKETING AGENCY</h1>
+      <p class="font-light text-3xl sm:text-2xl drop-shadow mb-6 p-4">
+        Top digital marketing agency in Kenya
+      </p>
+      <div class="flex p-4">
+        <a 
+          href="{% url 'services' %}" 
+          class="flex justify-center items-center sm:w-auto px-6 py-2 bg-0 border text-white text-sm font-medium rounded-full hover:bg-blue-50 hover:text-gray-800 transition"
+        >
+          Explore Our Services
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Image -->
+  </div>
+</section>

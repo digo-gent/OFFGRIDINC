@@ -1,0 +1,77 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% block footer %}
+<footer   class="w-full bg-blue-100 pt-10 text-gray-700 bg-cover bg-center bg-no-repeat relative" 
+  style="background-image: url('{% static 'images/footer_mainbg.jpg' %}');" >
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
+
+    <!-- About Us -->
+    <div>
+      <h2 class="text-xl font-bold mb-4">About Us</h2>
+      <p class="text-sm leading-relaxed">
+        As a digital marketing agency, we understand what truly drives conversions —
+        human connection. We help you attract ideal customers by leveraging your unique strengths
+        with creative, strategic campaigns that work.
+      </p>
+    </div>
+
+<!-- Services -->
+<div>
+  <h2 class="text-xl text-gray-600 font-bold mb-4">Our Services</h2>
+  
+  <ul class="space-y-2 text-sm">
+    {% for service in services %}
+    <li class="mb-2 transform transition-all duration-300 ease-in-out hover:translate-x-2">
+      <a href="{% url 'service_detail' service.id %}" class="block hover:bg-gray-100 px-2 py-1 rounded text-normal font-semibold text-gray-600">
+        {{ service.get_service_display }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+    <!-- Newsletter -->
+    <div>
+      <h2 class="text-xl text-gray-600 font-bold mb-4">Get Market Insights</h2>
+      <form method="POST" action="{% url 'newsletter-subscribe' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="newsletter">
+        {{ newsletter_form |crispy }}
+        <button type="submit" class="w-full bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+          Join Newsletter
+        </button>
+      </form>
+    </div>
+
+<!-- Social Icons -->
+<div>
+  <h2 class="text-xl text-gray-600 font-bold mb-4">Follow Us :</h2>
+
+  <div class="flex space-x-4 mt-4">
+    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+        class="flex items-center justify-center bg-gray-700 h-10 w-10 rounded-full text-white hover:text-blue-500 transition transform hover:scale-110">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+        class="flex items-center justify-center bg-gray-700 h-10 w-10 rounded-full text-white hover:text-pink-500 transition transform hover:scale-110">
+      <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+        class="flex items-center justify-center bg-gray-700 h-10 w-10 rounded-full text-white hover:text-blue-500 transition transform hover:scale-110">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+  </div>
+</div>
+
+  </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="border-t mt-10 pt-4 pb-4 text-center text-sm text-gray-600">
+    &copy; {{ now.year }} <strong>Offgrid Incorporation.</strong> All rights reserved.
+  </div>
+</footer>
+{% endblock footer %}

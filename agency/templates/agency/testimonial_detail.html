@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="w-full">
+            <p class="text-black">{{ testimonial.testimony }}</p>
+            <p class="text-black">{{ testimonial.client }}</p>
+            <p class="text-black">{{ testimonial.Owner }}</p>
+            <p>howdy!</p>
+            <div><a href="{% url 'testimonial_delete' testimonial.id %}"> <button type="submit">Delete Testimonial</button></div></a>
+            <div><a href="{% url 'testimonial_update' testimonial.id %}"> <button type="submit">Update Testimonial</button></div></a>
+        </div>
+{% endblock %}

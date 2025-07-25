@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ meta_title }} | Offgrid Incorporation {% endblock title %}
+{% block meta_description %}{{ meta_description}}{% endblock meta_description %}
+{% block content %}
+<!-- Hero Section -->
+<section class="relative w-full h-screen bg-cover bg-center bg-no-repeat"
+  style="background-image: url('{% static 'images/testimonial_hero1.jpg' %}');"
+>
+  <div class="absolute inset-0 bg-black/40"></div> <!-- Optional dark overlay -->
+
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow mb-4">
+      Glowing Reviews From Esteemed Clients
+    </h1>
+    <p class="text-lg sm:text-2xl font-light text-white max-w-3xl mx-auto">
+      Fitting reviews for work well done.
+    </p>
+  </div>
+</section>
+
+
+<!-- Testimonials Section -->
+<section class="w-full bg-white py-16 px-6 md:px-20">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl md:text-5xl font-semibold text-gray-900">Client Testimonials</h2>
+  </div>
+
+  <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+    {% for testimonial in testimonials %}
+    <div class="bg-gradient-to-br from-blue-100 to-white rounded-2xl shadow-md hover:shadow-2xl transition duration-300 ease-in-out p-6 flex flex-col justify-between">
+      <p class="text-lg text-gray-700 italic mb-6">
+        “{{ testimonial.testimony }}”
+      </p>
+      <div class="mt-auto">
+        <h3 class="text-xl font-semibold text-gray-800">{{ testimonial.client }}</h3>
+        {% if testimonial.owner %}
+        <p class="text-sm text-gray-600">{{ testimonial.owner }}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
